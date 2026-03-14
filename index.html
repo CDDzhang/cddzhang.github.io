@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name | Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── 颜色变量，改这里可以换整体配色 ── */
+    :root {
+      --bg: #faf9f7;
+      --surface: #f2f0ec;
+      --border: #dedad4;
+      --text: #1a1916;
+      --muted: #7a7670;
+      --accent: #2a5298;
+      --accent-light: #e8edf7;
+      --tag-bg: #edeae4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    /* ── 导航栏 ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(250,249,247,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 2rem;
+    }
+    nav .inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    nav .logo {
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--accent); }
+
+    /* ── 主内容区 ── */
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    /* ── Hero / About ── */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 3rem;
+      align-items: start;
+      padding-top: 5rem;
+    }
+    .about-text h1 {
+      font-size: 2.6rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    .about-text .role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .about-text p {
+      color: #3d3b37;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+    }
+    .links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--muted);
+      text-decoration: none;
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+    .links a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .avatar-box {
+      width: 180px;
+      height: 180px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+    /* 如果有头像图片，把 img 标签取消注释并替换路径 */
+
+    /* ── 节标题 ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── 论文列表 ── */
+    .pub-list { display: flex; flex-direction: column; gap: 1.8rem; }
+    .pub-item {
+      padding: 1.4rem 1.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .pub-item:hover { border-color: var(--accent); }
+    .pub-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+    .pub-authors {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .pub-authors strong { color: var(--text); } /* 自己的名字加粗 */
+    .pub-venue {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .pub-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      background: var(--tag-bg);
+      border-radius: 2px;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .tag.highlight { background: var(--accent-light); color: var(--accent); }
+    .pub-links { margin-top: 0.8rem; display: flex; gap: 0.8rem; }
+    .pub-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .pub-links a:hover { text-decoration: underline; }
+
+    /* ── 项目卡片 ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .project-card {
+      padding: 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); }
+    .project-card h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .project-card .proj-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── 联系方式 ── */
+    .contact-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem 2.2rem;
+    }
+    .contact-block p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; }
+    .contact-block .email {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 640px) {
+      #about { grid-template-columns: 1fr; }
+      .avatar-box { width: 120px; height: 120px; }
+      .project-grid { grid-template-columns: 1fr; }
+      .about-text h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ 导航栏 ══════════════════ -->
+<nav>
+  <div class="inner">
+    <!-- 改成你的名字缩写 -->
+    <a class="logo" href="#">Y. Name</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ══════════════════ 个人简介 ══════════════════ -->
+  <section id="about">
+    <div class="about-text">
+      <!-- ★ 改成你的姓名 -->
+      <h1>Your Name<br>你的姓名</h1>
+      <!-- ★ 改成你的职位和单位 -->
+      <div class="role">PhD Candidate · 某大学某院系</div>
+
+      <!-- ★ 改成你的自我介绍，2-3段即可 -->
+      <p>
+        I am a researcher at [Your Institution], working on [your broad research area].
+        My work focuses on [specific topics], with the goal of [one-sentence mission].
+      </p>
+      <p>
+        Previously, I received my [degree] from [university]. I have interned at / collaborated with [labs or organizations].
+      </p>
+
+      <!-- ★ 改成你的实际链接，不需要的可以删掉 -->
+      <div class="links">
+        <a href="mailto:you@university.edu">✉ Email</a>
+        <a href="https://scholar.google.com/" target="_blank">Google Scholar</a>
+        <a href="https://github.com/" target="_blank">GitHub</a>
+        <a href="https://twitter.com/" target="_blank">Twitter / X</a>
+        <a href="/cv.pdf" target="_blank">CV (PDF)</a>
+      </div>
+    </div>
+
+    <!-- ★ 头像：把 img 标签里的 src 改成你的头像路径，删掉 div 版本 -->
+    <div class="avatar-box">
+      <!-- <img src="avatar.jpg" alt="Your Name" style="width:100%;height:100%;object-fit:cover"> -->
+      Put your<br>photo here<br><span style="font-size:0.65rem;opacity:0.6">(avatar.jpg)</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 论文发表 ══════════════════ -->
+  <section id="publications">
+    <div class="section-label">Publications</div>
+    <div class="pub-list">
+
+      <!-- ★ 每篇论文复制一个 pub-item 块 -->
+      <div class="pub-item">
+        <div class="pub-title">Your Paper Title Goes Here: A Study of Something Important</div>
+        <div class="pub-authors"><strong>Your Name</strong>, Co-author One, Co-author Two, Senior Author</div>
+        <div class="pub-venue">Conference / Journal Name, Year</div>
+        <div class="pub-tags">
+          <span class="tag highlight">Oral</span>  <!-- 删掉这行如果不是oral -->
+          <span class="tag">Topic A</span>
+          <span class="tag">Topic B</span>
+        </div>
+        <div class="pub-links">
+          <a href="#">[Paper]</a>
+          <a href="#">[Code]</a>
+          <a href="#">[Project Page]</a>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title">Another Publication Title: Method for Solving a Hard Problem</div>
+        <div class="pub-authors">Co-author One, <strong>Your Name</strong>, Senior Author</div>
+        <div class="pub-venue">Journal of Something, Vol. X, 2024</div>
+        <div class="pub-tags">
+          <span class="tag">Topic C</span>
+          <span class="tag">Topic D</span>
+        </div>
+        <div class="pub-links">
+          <a href="#">[Paper]</a>
+          <a href="#">[arXiv]</a>
+        </div>
+      </div>
+
+      <!-- 继续添加更多论文... -->
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ 研究项目 ══════════════════ -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <div class="project-grid">
+
+      <!-- ★ 每个项目复制一个 project-card 块 -->
+      <div class="project-card">
+        <h3>Project Name One</h3>
+        <p>一段简短的项目介绍，说明这个项目做什么、解决什么问题、有什么成果。</p>
+        <a class="proj-link" href="#">→ View on GitHub</a>
+      </div>
+
+      <div class="project-card">
+        <h3>Project Name Two</h3>
+        <p>Another short project description. What problem does it solve? What are the key results or contributions?</p>
+        <a class="proj-link" href="#">→ Project Page</a>
+      </div>
+
+      <div class="project-card">
+        <h3>Project Name Three</h3>
+        <p>可以放正在进行中的项目，或者开源工具、数据集等。</p>
+        <a class="proj-link" href="#">→ arXiv Preprint</a>
+      </div>
+
+      <div class="project-card">
+        <h3>Project Name Four</h3>
+        <p>Collaborative work with [Lab / Company]. Briefly describe the scope and your contribution.</p>
+        <a class="proj-link" href="#">→ Learn More</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ 联系方式 ══════════════════ -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <div class="contact-block">
+      <p>
+        I'm happy to discuss research collaborations, questions about my work, or just chat about [your field].
+        The best way to reach me is by email.
+      </p>
+      <!-- ★ 改成你的邮箱 -->
+      <div class="email">yourname@university.edu</div>
+      <p style="margin-top:1rem; font-size:0.88rem;">
+        <!-- ★ 改成你的办公室地址 -->
+        Office: Room XXX, Building Name, University, City, Country
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <!-- ★ 改成你的名字和年份 -->
+  © 2025 Your Name · Built with plain HTML · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
