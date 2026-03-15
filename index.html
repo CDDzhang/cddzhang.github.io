@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Name | Researcher</title>
+  <title>Zhang Sheng | Researcher</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── 颜色变量，改这里可以换整体配色 ── */
     :root {
       --bg: #faf9f7;
       --surface: #f2f0ec;
@@ -22,12 +21,25 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
       background: var(--bg);
       color: var(--text);
       font-size: 18px;
       line-height: 1.7;
     }
+
+    /* ── 语言切换：隐藏非当前语言 ── */
+    [data-lang-zh] { display: none; }
+    [data-lang-en] { display: inline; }
+    /* block 级元素 */
+    p[data-lang-zh], div[data-lang-zh], h1[data-lang-zh], span.role[data-lang-zh] { display: none; }
+    p[data-lang-en], div[data-lang-en], h1[data-lang-en], span.role[data-lang-en] { display: block; }
+
+    html.zh [data-lang-en] { display: none !important; }
+    html.zh [data-lang-zh] { display: inline !important; }
+    html.zh p[data-lang-zh], html.zh div[data-lang-zh], html.zh h1[data-lang-zh] { display: block !important; }
+    html.zh span.role[data-lang-zh] { display: block !important; }
+    html.zh p[data-lang-en], html.zh div[data-lang-en], html.zh h1[data-lang-en], html.zh span.role[data-lang-en] { display: none !important; }
 
     /* ── 导航栏 ── */
     nav {
@@ -54,6 +66,11 @@
       color: var(--text);
       text-decoration: none;
     }
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
     nav ul {
       list-style: none;
       display: flex;
@@ -69,6 +86,34 @@
       transition: color 0.2s;
     }
     nav ul a:hover { color: var(--accent); }
+
+    /* ── 语言切换按钮 ── */
+    .lang-toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .lang-toggle span {
+      padding: 0.3rem 0.65rem;
+      color: var(--muted);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .lang-toggle span.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .lang-toggle span:not(.active):hover {
+      background: var(--surface);
+      color: var(--text);
+    }
 
     /* ── 主内容区 ── */
     main {
@@ -142,7 +187,6 @@
       text-align: center;
       line-height: 1.4;
     }
-    /* 如果有头像图片，把 img 标签取消注释并替换路径 */
 
     /* ── 节标题 ── */
     .section-label {
@@ -184,7 +228,7 @@
       color: var(--muted);
       margin-bottom: 0.5rem;
     }
-    .pub-authors strong { color: var(--text); } /* 自己的名字加粗 */
+    .pub-authors strong { color: var(--text); }
     .pub-venue {
       font-style: italic;
       font-size: 0.9rem;
@@ -277,6 +321,8 @@
       .avatar-box { width: 120px; height: 120px; }
       .project-grid { grid-template-columns: 1fr; }
       .about-text h1 { font-size: 2rem; }
+      nav ul { gap: 1rem; }
+      .nav-right { gap: 1rem !important; }
     }
   </style>
 </head>
@@ -286,12 +332,39 @@
 <nav>
   <div class="inner">
     <a class="logo" href="#">Zhang, Sheng</a>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul>
+        <li>
+          <a href="#about">
+            <span data-lang-en>About</span>
+            <span data-lang-zh>关于</span>
+          </a>
+        </li>
+        <li>
+          <a href="#publications">
+            <span data-lang-en>Publications</span>
+            <span data-lang-zh>论文</span>
+          </a>
+        </li>
+        <li>
+          <a href="#projects">
+            <span data-lang-en>Projects</span>
+            <span data-lang-zh>项目</span>
+          </a>
+        </li>
+        <li>
+          <a href="#contact">
+            <span data-lang-en>Contact</span>
+            <span data-lang-zh>联系</span>
+          </a>
+        </li>
+      </ul>
+      <!-- ★ 中英文切换按钮 ── -->
+      <div class="lang-toggle" id="langToggle" title="Switch language / 切换语言">
+        <span id="btnEn" class="active">EN</span>
+        <span id="btnZh">中</span>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -300,45 +373,52 @@
   <!-- ══════════════════ 个人简介 ══════════════════ -->
   <section id="about">
     <div class="about-text">
-      <!-- ★ 改成你的姓名 -->
-      <h1>Zhang Sheng<br>张晟</h1>
-      <!-- ★ 改成你的职位和单位 -->
-      <div class="role">PhD of BIT · 北京理工大学机电学院</div>
+      <h1 data-lang-en>Zhang Sheng<br>张晟</h1>
+      <h1 data-lang-zh>张晟<br>Zhang Sheng</h1>
 
-      <!-- ★ 改成你的自我介绍，2-3段即可 -->
-      <p>
+      <span class="role" data-lang-en>PhD of BIT · School of Mechatronical Engineering</span>
+      <span class="role" data-lang-zh>北京理工大学 · 机电学院博士研究生</span>
+
+      <p data-lang-en>
         I am currently pursuing my Ph.D. at the School of Mechatronical Engineering, Beijing Institute of Technology. My research focuses on intelligent drone swarms, with interests spanning computer vision perception, end-to-end learning, autonomous obstacle avoidance for UAVs, and swarm intelligence simulation. My research goal is to enable vision-based cooperative UAV swarm missions in denied environments.
       </p>
-      <p>
-        Since 2015, I have completed my bachelor’s and master’s degrees at Beijing Institute of Technology, and I also completed my doctoral coursework with outstanding academic performance. I expect to graduate by the end of 2026. At present, I am seeking a postdoctoral or research-related position.
+      <p data-lang-zh>
+        我目前在北京理工大学机电学院攻读博士学位。我的研究聚焦于智能无人机集群，研究兴趣涵盖计算机视觉感知、端到端学习、无人机自主避障以及集群智能仿真。我的研究目标是在拒止环境中实现基于视觉的无人机集群协同任务。
       </p>
 
-      <!-- ★ 改成你的实际链接，不需要的可以删掉 -->
+      <p data-lang-en>
+        Since 2015, I have completed my bachelor's and master's degrees at Beijing Institute of Technology, and I also completed my doctoral coursework with outstanding academic performance. I expect to graduate by the end of 2026. At present, I am seeking a postdoctoral or research-related position.
+      </p>
+      <p data-lang-zh>
+        自2015年起，我在北京理工大学完成了本科和硕士学业，博士课程成绩优异。预计于2026年底毕业。目前正在寻求博士后或科研相关职位。
+      </p>
+
       <div class="links">
-        <a href="18811363276@163.com">✉ Email</a>
+        <a href="mailto:18811363276@163.com">✉ Email</a>
         <a href="https://github.com/CDDzhang/" target="_blank">GitHub</a>
-        <a href="zc499706008" target="_blank">WeChat</a>
+        <a href="javascript:void(0)" title="WeChat: zc499706008">WeChat</a>
       </div>
     </div>
 
-    <!-- ★ 头像：把 img 标签里的 src 改成你的头像路径，删掉 div 版本 -->
     <div class="avatar-box">
-      <img src="pictures/A-ShengZhang.jpg" alt="ZhangSheng" style="width:100%;height:100%;object-fit:cover">
+      <img src="pictures/A-ShengZhang.png" alt="ZhangSheng" style="width:100%;height:100%;object-fit:cover">
     </div>
   </section>
 
   <!-- ══════════════════ 论文发表 ══════════════════ -->
   <section id="publications">
-    <div class="section-label">Publications</div>
+    <div class="section-label">
+      <span data-lang-en>Publications</span>
+      <span data-lang-zh>论文发表</span>
+    </div>
     <div class="pub-list">
 
-      <!-- ★ 每篇论文复制一个 pub-item 块 -->
       <div class="pub-item">
         <div class="pub-title">SIGMA: An Agent-Based Modeling UAV Swarm Simulator for Swarm Intelligence Algorithms</div>
         <div class="pub-authors"><strong>Zhang Sheng</strong>, Li Juan, Liu Chang, Fu Lei, Bai Zehao</div>
         <div class="pub-venue">IEEE Transaction on Automation and Engineering, 2025</div>
         <div class="pub-tags">
-          <span class="tag highlight">Oral</span>  <!-- 删掉这行如果不是oral -->
+          <span class="tag highlight">Oral</span>
           <span class="tag">Topic A</span>
           <span class="tag">Topic B</span>
         </div>
@@ -363,38 +443,42 @@
         </div>
       </div>
 
-      <!-- 继续添加更多论文... -->
-
     </div>
   </section>
 
   <!-- ══════════════════ 研究项目 ══════════════════ -->
   <section id="projects">
-    <div class="section-label">Projects</div>
+    <div class="section-label">
+      <span data-lang-en>Projects</span>
+      <span data-lang-zh>研究项目</span>
+    </div>
     <div class="project-grid">
 
-      <!-- ★ 每个项目复制一个 project-card 块 -->
       <div class="project-card">
         <h3>Project Name One</h3>
-        <p>一段简短的项目介绍，说明这个项目做什么、解决什么问题、有什么成果。</p>
+        <p data-lang-en>A short project introduction describing what the project does, what problem it solves, and its outcomes.</p>
+        <p data-lang-zh>一段简短的项目介绍，说明这个项目做什么、解决什么问题、有什么成果。</p>
         <a class="proj-link" href="#">→ View on GitHub</a>
       </div>
 
       <div class="project-card">
         <h3>Project Name Two</h3>
-        <p>Another short project description. What problem does it solve? What are the key results or contributions?</p>
+        <p data-lang-en>Another short project description. What problem does it solve? What are the key results or contributions?</p>
+        <p data-lang-zh>另一个简短的项目描述。它解决了什么问题？关键成果或贡献是什么？</p>
         <a class="proj-link" href="#">→ Project Page</a>
       </div>
 
       <div class="project-card">
         <h3>Project Name Three</h3>
-        <p>可以放正在进行中的项目，或者开源工具、数据集等。</p>
+        <p data-lang-en>Works in progress, open-source tools, datasets, etc.</p>
+        <p data-lang-zh>可以放正在进行中的项目，或者开源工具、数据集等。</p>
         <a class="proj-link" href="#">→ arXiv Preprint</a>
       </div>
 
       <div class="project-card">
         <h3>Project Name Four</h3>
-        <p>Collaborative work with [Lab / Company]. Briefly describe the scope and your contribution.</p>
+        <p data-lang-en>Collaborative work with [Lab / Company]. Briefly describe the scope and your contribution.</p>
+        <p data-lang-zh>与[实验室/公司]的合作项目。简要描述范围及个人贡献。</p>
         <a class="proj-link" href="#">→ Learn More</a>
       </div>
 
@@ -403,17 +487,22 @@
 
   <!-- ══════════════════ 联系方式 ══════════════════ -->
   <section id="contact">
-    <div class="section-label">Contact</div>
+    <div class="section-label">
+      <span data-lang-en>Contact</span>
+      <span data-lang-zh>联系方式</span>
+    </div>
     <div class="contact-block">
-      <p>
+      <p data-lang-en>
         I'm happy to discuss research collaborations, questions about my work, or just chat about my research.
         The best way to reach me is by email.
       </p>
-      <!-- ★ 改成你的邮箱 -->
+      <p data-lang-zh>
+        欢迎讨论科研合作、关于我研究工作的问题，或者随时交流。可以通过邮件联系我。
+      </p>
       <div class="email">18811363276@163.com</div>
       <p style="margin-top:1rem; font-size:0.88rem;">
-        <!-- ★ 改成你的办公室地址 -->
-        Beijing Insitute of Technology, Beijing, China
+        <span data-lang-en>Beijing Institute of Technology, Beijing, China</span>
+        <span data-lang-zh>中国北京 · 北京理工大学</span>
       </p>
     </div>
   </section>
@@ -421,9 +510,38 @@
 </main>
 
 <footer>
-  <!-- ★ 改成你的名字和年份 -->
   © 2026 Zhang Sheng · Built with plain HTML · Hosted on GitHub Pages
 </footer>
+
+<script>
+(function () {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btnEn');
+  const btnZh = document.getElementById('btnZh');
+
+  // 读取上次选择的语言（localStorage），默认英文
+  const saved = localStorage.getItem('site-lang');
+  if (saved === 'zh') switchTo('zh');
+
+  btnEn.addEventListener('click', () => switchTo('en'));
+  btnZh.addEventListener('click', () => switchTo('zh'));
+
+  function switchTo(lang) {
+    if (lang === 'zh') {
+      html.classList.add('zh');
+      html.setAttribute('lang', 'zh');
+      btnZh.classList.add('active');
+      btnEn.classList.remove('active');
+    } else {
+      html.classList.remove('zh');
+      html.setAttribute('lang', 'en');
+      btnEn.classList.add('active');
+      btnZh.classList.remove('active');
+    }
+    localStorage.setItem('site-lang', lang);
+  }
+})();
+</script>
 
 </body>
 </html>
