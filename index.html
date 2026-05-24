@@ -1,545 +1,1181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zhang Sheng | Researcher</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #faf9f7;
-      --surface: #f2f0ec;
-      --border: #dedad4;
-      --text: #1a1916;
-      --muted: #7a7670;
-      --accent: #2a5298;
-      --accent-light: #e8edf7;
-      --tag-bg: #edeae4;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sheng Zhang — Beijing Institute of Technology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f7f6f3;
+    --ink: #11151c;
+    --ink-soft: #3a414e;
+    --muted: #6b7280;
+    --rule: #e4e2dc;
+    --rule-soft: #efece6;
+    --accent: #1e3a8a;
+    --accent-deep: #14266b;
+    --accent-soft: #eef2fb;
+    --accent-mid: #93b0eb;
+    --highlight: #fde68a;
+    --max: 1080px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.65;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  [data-zh] { display: none; }
+  html.zh [data-en] { display: none; }
+  html.zh [data-zh] { display: initial; }
+  html.zh body { font-family: 'Noto Serif SC', 'Source Serif 4', Georgia, serif; }
 
-    body {
-      font-family: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 18px;
-      line-height: 1.7;
-    }
+  header.topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar-inner {
+    max-width: var(--max); margin: 0 auto; padding: 0 2rem;
+    height: 60px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 0.98rem;
+    letter-spacing: 0.01em; color: var(--ink);
+  }
+  .brand .dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    margin-right: 0.55rem; transform: translateY(-2px);
+  }
+  .nav-cluster { display: flex; align-items: center; gap: 1.8rem; }
+  nav.primary ul { list-style: none; display: flex; gap: 1.6rem; }
+  nav.primary a {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  nav.primary a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--rule);
+    border-radius: 2px; overflow: hidden;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.04em;
+  }
+  .lang button {
+    background: none; border: none; padding: 0.32rem 0.65rem;
+    color: var(--muted); cursor: pointer; transition: all 0.15s;
+    font-family: inherit; font-size: inherit;
+  }
+  .lang button.on { background: var(--accent); color: #fff; }
+  .lang button:not(.on):hover { background: var(--bg-soft); color: var(--ink); }
 
-    /* ── 语言切换：隐藏非当前语言 ── */
-    [data-lang-zh] { display: none; }
-    [data-lang-en] { display: inline; }
-    /* block 级元素 */
-    p[data-lang-zh], div[data-lang-zh], h1[data-lang-zh], span.role[data-lang-zh] { display: none; }
-    p[data-lang-en], div[data-lang-en], h1[data-lang-en], span.role[data-lang-en] { display: block; }
+  main { max-width: var(--max); margin: 0 auto; padding: 0 2rem; }
+  section { padding: 3rem 0;}
+  .section-head {
+    display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem;
+  }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--accent); letter-spacing: 0.1em;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.75rem;
+    letter-spacing: -0.01em; color: var(--ink);
+  }
+  .section-head .rule { flex: 1; height: 1px; background: var(--rule); transform: translateY(-6px); }
 
-    html.zh [data-lang-en] { display: none !important; }
-    html.zh [data-lang-zh] { display: inline !important; }
-    html.zh p[data-lang-zh], html.zh div[data-lang-zh], html.zh h1[data-lang-zh] { display: block !important; }
-    html.zh span.role[data-lang-zh] { display: block !important; }
-    html.zh p[data-lang-en], html.zh div[data-lang-en], html.zh h1[data-lang-en], html.zh span.role[data-lang-en] { display: none !important; }
+  #hero { padding: 4.5rem 0 5rem; border-bottom: 1px solid var(--rule-soft); }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: 3.5rem; align-items: center;
+  }
+  .hero-text .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.7rem;
+  }
+  .hero-text .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
 
-    /* ── 导航栏 ── */
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(250,249,247,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
-      padding: 0 2rem;
-    }
-    nav .inner {
-      max-width: 820px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-    nav .logo {
-      font-weight: 500;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-      color: var(--text);
-      text-decoration: none;
-    }
-    nav .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-    nav ul a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--accent); }
+  .name-row {
+    display: flex; align-items: center; gap: 1.4rem; margin-bottom: 0.4rem;
+  }
+  .avatar {
+    flex-shrink: 0; width: 72px; height: 72px; border-radius: 50%;
+    background: var(--bg-soft); border: 1px solid var(--rule);
+    overflow: hidden; box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .name-block { flex: 1; min-width: 0; }
+  .name-block h1 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2rem, 4.2vw, 2.8rem); line-height: 1.05;
+    letter-spacing: -0.02em; margin: 0;
+  }
+  .name-block h1 .alt {
+    display: block; font-family: 'Noto Serif SC', serif; font-weight: 400;
+    font-size: 0.5em; color: var(--muted); margin-top: 0.4rem; letter-spacing: 0;
+  }
+  html.zh .name-block h1 .alt { font-family: 'Fraunces', serif; }
 
-    /* ── 语言切换按钮 ── */
-    .lang-toggle {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.04em;
-      display: flex;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-      cursor: pointer;
-      user-select: none;
-      flex-shrink: 0;
-    }
-    .lang-toggle span {
-      padding: 0.3rem 0.65rem;
-      color: var(--muted);
-      transition: all 0.25s ease;
-      position: relative;
-    }
-    .lang-toggle span.active {
-      background: var(--accent);
-      color: #fff;
-    }
-    .lang-toggle span:not(.active):hover {
-      background: var(--surface);
-      color: var(--text);
-    }
+  .hero-text .affil {
+    margin-top: 1.4rem; font-size: 1rem; color: var(--ink-soft); line-height: 1.7;
+  }
+  .hero-text .affil .role { color: var(--ink); font-weight: 500; }
+  .hero-text .bio { margin-top: 1.4rem; color: var(--ink-soft); font-size: 1rem; }
+  .hero-text .bio + .bio { margin-top: 0.85rem; }
+  .hero-text .bio strong { color: var(--ink); font-weight: 600; }
 
-    /* ── 主内容区 ── */
-    main {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 0 2rem 6rem;
-    }
+  .quick-links {
+    margin-top: 1.7rem; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.02em;
+  }
+  .quick-links a {
+    color: var(--ink-soft); text-decoration: none;
+    border-bottom: 1px solid var(--rule); padding-bottom: 2px; transition: all 0.15s;
+  }
+  .quick-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .quick-links a::before { content: '→ '; color: var(--accent); }
 
-    section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
-    section:last-child { border-bottom: none; }
+  /* ─── Interactive A* game ─── */
+  .hero-visual { display: flex; flex-direction: column; gap: 0.7rem; }
+  .game-wrap {
+    background: var(--bg-soft); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 0.9rem; position: relative;
+  }
+  .game-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.7rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .game-header .title { color: var(--accent); }
+  .game-header .stats { display: flex; gap: 0.9rem; }
+  .game-header .stats strong { color: var(--ink); font-weight: 500; }
 
-    /* ── Hero / About ── */
-    #about {
-      display: grid;
-      grid-template-columns: 1fr 200px;
-      gap: 3rem;
-      align-items: start;
-      padding-top: 5rem;
-    }
-    .about-text h1 {
-      font-size: 2.6rem;
-      font-weight: 500;
-      line-height: 1.2;
-      margin-bottom: 0.3rem;
-    }
-    .about-text .role {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.82rem;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-    .about-text p {
-      color: #3d3b37;
-      margin-bottom: 1rem;
-      font-size: 1.05rem;
-    }
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1.8rem;
-    }
-    .links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.76rem;
-      letter-spacing: 0.04em;
-      padding: 0.4rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      color: var(--muted);
-      text-decoration: none;
-      background: var(--surface);
-      transition: all 0.2s;
-    }
-    .links a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-    .avatar-box {
-      width: 180px;
-      height: 180px;
-      border-radius: 6px;
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      text-align: center;
-      line-height: 1.4;
-    }
+  #astar-canvas {
+    display: block; width: 100%; aspect-ratio: 1 / 1;
+    background: #fff; border: 1px solid var(--rule);
+    border-radius: 2px; cursor: crosshair; image-rendering: crisp-edges;
+  }
 
-    /* ── 节标题 ── */
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+  .game-controls {
+    display: flex; gap: 0.5rem; margin-top: 0.7rem; flex-wrap: wrap;
+  }
+  .game-controls button {
+    flex: 1; min-width: 80px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.45rem 0.6rem;
+    background: #fff; color: var(--ink-soft);
+    border: 1px solid var(--rule); border-radius: 2px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .game-controls button:hover {
+    border-color: var(--accent); color: var(--accent); background: var(--accent-soft);
+  }
+  .game-controls button.primary {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .game-controls button.primary:hover {
+    background: var(--accent-deep); border-color: var(--accent-deep); color: #fff;
+  }
 
-    /* ── 论文列表 ── */
-    .pub-list { display: flex; flex-direction: column; gap: 1.8rem; }
-    .pub-item {
-      padding: 1.4rem 1.6rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      transition: border-color 0.2s;
-    }
-    .pub-item:hover { border-color: var(--accent); }
-    .pub-title {
-      font-size: 1.05rem;
-      font-weight: 500;
-      margin-bottom: 0.3rem;
-      color: var(--text);
-    }
-    .pub-authors {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-    }
-    .pub-authors strong { color: var(--text); }
-    .pub-venue {
-      font-style: italic;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-    }
-    .pub-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      padding: 0.2rem 0.6rem;
-      background: var(--tag-bg);
-      border-radius: 2px;
-      color: var(--muted);
-      letter-spacing: 0.03em;
-    }
-    .tag.highlight { background: var(--accent-light); color: var(--accent); }
-    .pub-links { margin-top: 0.8rem; display: flex; gap: 0.8rem; }
-    .pub-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.73rem;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-    }
-    .pub-links a:hover { text-decoration: underline; }
+  .game-legend {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    color: var(--muted); letter-spacing: 0.04em; padding: 0 0.2rem;
+  }
+  .game-legend .item { display: flex; align-items: center; gap: 0.4rem; }
+  .game-legend .swatch {
+    width: 10px; height: 10px; border-radius: 1px; border: 1px solid var(--rule);
+  }
+  .game-hint {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    color: var(--muted); letter-spacing: 0.04em;
+    text-align: center; padding: 0.3rem 0 0;
+  }
 
-    /* ── 项目卡片 ── */
-    .project-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-    }
-    .project-card {
-      padding: 1.4rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      transition: border-color 0.2s;
-    }
-    .project-card:hover { border-color: var(--accent); }
-    .project-card h3 {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 0.6rem;
-    }
-    .project-card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .project-card .proj-link {
-      display: inline-block;
-      margin-top: 0.8rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-    }
+  /* ─── News ─── */
+  .news { padding: 1.5rem 0; border-bottom: 1px solid var(--rule-soft); background: var(--bg-soft); }
+  .news-inner {
+    max-width: var(--max); margin: 0 auto; padding: 0 2rem;
+    display: grid; grid-template-columns: 100px 1fr; gap: 2rem; align-items: start;
+  }
+  .news-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); padding-top: 0.15rem;
+  }
+  .news-list { display: flex; flex-direction: column; gap: 0.55rem; }
+  .news-item {
+    display: grid; grid-template-columns: 90px 1fr; gap: 1.2rem;
+    font-size: 0.93rem; color: var(--ink-soft);
+  }
+  .news-item .date {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--muted); letter-spacing: 0.02em;
+  }
+  .news-item .new {
+    display: inline-block; background: var(--accent); color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    padding: 0.05rem 0.35rem; border-radius: 2px; letter-spacing: 0.08em;
+    margin-right: 0.4rem; transform: translateY(-1px);
+  }
 
-    /* ── 联系方式 ── */
-    .contact-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2rem 2.2rem;
-    }
-    .contact-block p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; }
-    .contact-block .email {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.95rem;
-      color: var(--accent);
-    }
+  .featured {
+    display: grid; grid-template-columns: 280px 1fr; gap: 2rem;
+    padding: 1.8rem; background: var(--bg-soft);
+    border: 1px solid var(--rule); border-radius: 4px;
+    margin-bottom: 2.5rem; transition: border-color 0.2s;
+  }
+  .featured:hover { border-color: var(--accent); }
+  .featured .figure {
+    aspect-ratio: 4 / 3; background: #fff;
+    border: 1px solid var(--rule); border-radius: 3px;
+    overflow: hidden; position: relative;
+  }
+  .featured .figure svg { width: 100%; height: 100%; display: block; }
+  .featured .meta { display: flex; flex-direction: column; justify-content: center; }
+  .featured .badge {
+    display: inline-block; align-self: flex-start;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 0.25rem 0.6rem; border-radius: 2px; margin-bottom: 0.9rem;
+  }
+  .featured h3 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.3rem;
+    line-height: 1.3; margin-bottom: 0.6rem; letter-spacing: -0.005em;
+  }
+  .featured .authors { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .featured .authors .me { color: var(--ink); font-weight: 600; border-bottom: 1.5px solid var(--accent); }
+  .featured .venue { font-style: italic; color: var(--muted); font-size: 0.92rem; margin-bottom: 1rem; }
+  .featured .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .featured .actions a {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.04em;
+    padding: 0.4rem 0.8rem; border: 1px solid var(--rule); border-radius: 2px;
+    color: var(--ink-soft); background: #fff; text-decoration: none; transition: all 0.15s;
+  }
+  .featured .actions a:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ── 页脚 ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      border-top: 1px solid var(--border);
-    }
+  .pub-list { display: flex; flex-direction: column; }
+  .pub-row {
+    display: grid; grid-template-columns: 110px 1fr; gap: 1.8rem;
+    padding: 1.6rem 0; border-top: 1px solid var(--rule-soft);
+  }
+  .pub-row:last-child { border-bottom: 1px solid var(--rule-soft); }
+  .pub-row .pubmeta {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--muted); letter-spacing: 0.03em; padding-top: 0.2rem;
+  }
+  .pub-row .pubmeta .year { color: var(--ink); font-weight: 500; }
+  .pub-row h4 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.08rem;
+    line-height: 1.35; margin-bottom: 0.35rem;
+  }
+  .pub-row h4 a { color: var(--ink); text-decoration: none; }
+  .pub-row h4 a:hover { color: var(--accent); }
+  .pub-row .authors { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .pub-row .authors .me { color: var(--ink); font-weight: 600; border-bottom: 1.5px solid var(--accent); }
+  .pub-row .venue { font-style: italic; color: var(--muted); font-size: 0.88rem; margin-bottom: 0.55rem; }
+  .pub-row .links {
+    display: flex; gap: 1rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.04em;
+  }
+  .pub-row .links a { color: var(--accent); }
 
-    /* ── 响应式 ── */
-    @media (max-width: 640px) {
-      #about { grid-template-columns: 1fr; }
-      .avatar-box { width: 120px; height: 120px; }
-      .project-grid { grid-template-columns: 1fr; }
-      .about-text h1 { font-size: 2rem; }
-      nav ul { gap: 1rem; }
-      .nav-right { gap: 1rem !important; }
-    }
-  </style>
+  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .research-card {
+    padding: 1.5rem 1.4rem; background: #fff;
+    border: 1px solid var(--rule); border-radius: 4px;
+    transition: all 0.2s; position: relative;
+  }
+  .research-card .icon { width: 36px; height: 36px; margin-bottom: 1rem; color: var(--accent); }
+  .research-card h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .research-card p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; }
+  .research-card .num {
+    position: absolute; top: 1rem; right: 1.2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); letter-spacing: 0.08em;
+  }
+
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 4px; top: 0.5rem; bottom: 0.5rem;
+    width: 1px; background: var(--rule);
+  }
+  .tl-item { position: relative; padding-bottom: 2rem; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -1.5rem; top: 0.55rem;
+    width: 9px; height: 9px; background: #fff;
+    border: 1.5px solid var(--accent); border-radius: 50%;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item .date {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--accent); letter-spacing: 0.04em; margin-bottom: 0.2rem;
+  }
+  .tl-item h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.05rem; margin-bottom: 0.15rem; }
+  .tl-item .org { color: var(--ink-soft); font-size: 0.92rem; }
+  .tl-item .note { color: var(--muted); font-size: 0.88rem; margin-top: 0.3rem; }
+
+  .contact-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: start; }
+  .contact-wrap p { color: var(--ink-soft); font-size: 1.02rem; margin-bottom: 1rem; }
+  .contact-wrap .seeking {
+    margin-top: 1.2rem; padding: 1rem 1.2rem;
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 0 3px 3px 0; font-size: 0.95rem; color: var(--ink);
+  }
+  .contact-wrap .seeking strong { color: var(--accent); }
+  .contact-card { background: var(--bg-soft); border: 1px solid var(--rule); border-radius: 4px; padding: 1.5rem 1.6rem; }
+  .contact-card dl { display: grid; grid-template-columns: 80px 1fr; gap: 0.6rem 1rem; font-size: 0.92rem; }
+  .contact-card dt {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding-top: 0.25rem;
+  }
+  .contact-card dd { color: var(--ink); }
+  .contact-card dd a { word-break: break-all; }
+
+  footer { padding: 2.5rem 2rem; border-top: 1px solid var(--rule); background: var(--bg-soft); }
+  .footer-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--muted); letter-spacing: 0.04em;
+  }
+  .footer-inner .loc { color: var(--ink-soft); }
+
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-visual { max-width: 460px; margin: 0 auto; width: 100%; }
+    .featured { grid-template-columns: 1fr; }
+    .featured .figure { max-width: 340px; }
+    .research-grid { grid-template-columns: 1fr; }
+    .contact-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .news-inner { grid-template-columns: 1fr; gap: 0.8rem; }
+    .pub-row { grid-template-columns: 1fr; gap: 0.5rem; }
+    nav.primary ul { gap: 1rem; }
+    nav.primary a { font-size: 0.65rem; }
+    .topbar-inner { padding: 0 1.2rem; }
+    main { padding: 0 1.2rem; }
+    footer { padding: 2rem 1.2rem; }
+    .footer-inner { flex-direction: column; gap: 0.6rem; }
+    .avatar { width: 60px; height: 60px; }
+  }
+  @media (max-width: 540px) { nav.primary { display: none; } }
+</style>
 </head>
 <body>
 
-<!-- ══════════════════ 导航栏 ══════════════════ -->
-<nav>
-  <div class="inner">
-    <a class="logo" href="#">Zhang, Sheng</a>
-    <div class="nav-right">
-      <ul>
-        <li>
-          <a href="#about">
-            <span data-lang-en>About</span>
-            <span data-lang-zh>关于</span>
-          </a>
-        </li>
-        <li>
-          <a href="#publications">
-            <span data-lang-en>Publications</span>
-            <span data-lang-zh>论文</span>
-          </a>
-        </li>
-        <li>
-          <a href="#projects">
-            <span data-lang-en>Projects</span>
-            <span data-lang-zh>项目</span>
-          </a>
-        </li>
-        <li>
-          <a href="#contact">
-            <span data-lang-en>Contact</span>
-            <span data-lang-zh>联系</span>
-          </a>
-        </li>
-      </ul>
-      <!-- ★ 中英文切换按钮 ── -->
-      <div class="lang-toggle" id="langToggle" title="Switch language / 切换语言">
-        <span id="btnEn" class="active">EN</span>
-        <span id="btnZh">中</span>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand"><span class="dot"></span>Sheng Zhang</a>
+    <div class="nav-cluster">
+      <nav class="primary">
+        <ul>
+          <li><a href="#hero" data-en>About</a><a href="#hero" data-zh>个人简介</a></li>
+          <li><a href="#publications" data-en>Publications</a><a href="#publications" data-zh>学术成果</a></li>
+          <li><a href="#research" data-en>Research</a><a href="#research" data-zh>研究方向</a></li>
+          <li><a href="#experience" data-en>Experience</a><a href="#experience" data-zh>教育经历</a></li>
+          <li><a href="#contact" data-en>Contact</a><a href="#contact" data-zh>联系方式</a></li>
+        </ul>
+      </nav>
+      <div class="lang" role="group" aria-label="Language">
+        <button id="btn-en" class="on">EN</button>
+        <button id="btn-zh">中</button>
       </div>
     </div>
   </div>
-</nav>
+</header>
+
+<main>
+<section id="hero">
+  <div class="hero-grid">
+
+    <div class="hero-text">
+      <div class="eyebrow" data-en>PhD Candidate · UAV · Vision · Navigation</div>
+      <div class="eyebrow" data-zh>博士研究生 · 无人机 · 视觉感知 · 导航</div>
+
+      <div class="name-row">
+        <div class="avatar">
+          <img src="pictures/A-ShengZhang.png" alt="Sheng Zhang">
+        </div>
+        <div class="name-block">
+          <h1 data-en>
+            Sheng Zhang
+            <span class="alt">张 晟</span>
+          </h1>
+          <h1 data-zh>
+            张 晟
+            <span class="alt">Sheng Zhang</span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="affil" data-en>
+        <span class="role">PhD Candidate</span>, School of Mechatronical Engineering<br>
+        Beijing Institute of Technology<br>  <span class="role">Supervisor: Prof. Li Jie</span>
+      </div>
+      <div class="affil" data-zh>
+        <span class="role">博士研究生</span>，机电学院<br>
+        北京理工大学<br>  <span class="role">导师： 李杰教授</span>
+      </div>
+
+      <p class="bio" data-en>
+        My research focuses on <strong>UAV visual perception and autonomous navigation</strong>, covering areas such as computer vision, UAV navigation, and swarm intelligence.
+        My work mainly centers on <strong>depth estimation, swarm simulation, and obstacle avoidance navigation</strong>, aiming to enable autonomous perception and collision avoidance for UAVs in complex dynamic environments.
+      </p>
+      <p class="bio" data-en>
+        Since 2015, I have completed my undergraduate, master’s, and doctoral studies at the <strong>School of Mechatronical Engineering, Beijing Institute of Technology</strong>.
+        I have published related research in journals and conferences, such as T-ASE, RA-L, and IROS and so on.
+        I am currently actively seeking <strong>postdoctoral or research-oriented positions</strong>.
+      </p>
+
+      <p class="bio" data-zh>
+        我的研究方向是<strong>无人机视觉感知及自主导航</strong>，方向涵盖计算机视觉、无人机导航及集群智能。
+        我的研究关注于<strong>深度估计、集群仿真、避障导航</strong>三方面，实现无人机在复杂动态环境下的自主感知和避障任务。
+      </p>
+      <p class="bio" data-zh>
+        自 2015 年起至今，在北京理工大学机电学院完成本科、硕士和博士阶段的学习任务。在目前已经在T-ASE、RA-L、IROS等期刊会议发表相关研究成果。
+        目前正在积极寻求<strong>博士后或研究类职位</strong>。
+      </p>
+    </div>
+
+    <!-- ─── Interactive A* pathfinding demo ─── -->
+    <div class="hero-visual">
+      <div class="game-wrap">
+        <div class="game-header">
+          <span class="title">DEMO · A* PATHFINDING</span>
+          <div class="stats">
+            <span><span data-en>Explored:</span><span data-zh>探索:</span> <strong id="stat-steps">0</strong></span>
+            <span><span data-en>Path:</span><span data-zh>路径:</span> <strong id="stat-path">—</strong></span>
+          </div>
+        </div>
+        <canvas id="astar-canvas" width="500" height="500"></canvas>
+        <div class="game-controls">
+          <button id="btn-clear">
+            <span data-en>Clear</span><span data-zh>清空</span>
+          </button>
+          <button id="btn-random">
+            <span data-en>Random</span><span data-zh>随机障碍</span>
+          </button>
+          <button id="btn-replay" class="primary">
+            <span data-en>▶ Fly</span><span data-zh>▶ 起飞</span>
+          </button>
+        </div>
+      </div>
+      <div class="game-legend">
+        <div class="item"><span class="swatch" style="background:#1e3a8a;"></span><span data-en>UAV</span><span data-zh>无人机</span></div>
+        <div class="item"><span class="swatch" style="background:#fde68a; border-color:#d4a72c;"></span><span data-en>Goal</span><span data-zh>目标</span></div>
+        <div class="item"><span class="swatch" style="background:#11151c;"></span><span data-en>Obstacle</span><span data-zh>障碍</span></div>
+        <div class="item"><span class="swatch" style="background:#eef2fb;"></span><span data-en>Explored</span><span data-zh>探索区</span></div>
+      </div>
+      <div class="game-hint">
+        <span data-en>Click any cell to toggle an obstacle · The UAV re-plans in real time</span>
+        <span data-zh>点击格子放置/移除障碍 · 无人机会实时重新规划路径</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<div class="news">
+  <div class="news-inner">
+    <div class="news-label">News</div>
+    <div class="news-list">
+      
+      <div class="news-item">
+        <span class="date">2026 · 06</span>
+        <span><span class="new">NEW</span><span data-en>Attending <strong>ICRA 2026</strong> in person — happy to chat about Aritifical Intelligence.</span><span data-zh>线下参加 <strong>ICRA 2026</strong>，欢迎交流。</span></span>
+      </div>
+      <div class="news-item">
+        <span class="date">2025 · 05</span>
+        <span><span data-en>Paper accepted to <em>IEEE RA-L</em> — final version submitted.</span><span data-zh>论文被 <em>IEEE RA-L</em> 接收，最终版已提交。</span></span>
+      </div>
+      <div class="news-item">
+        <span class="date">2026 · 01</span>
+        <span><span data-en>Paper accepted to <em>IEEE IoTJ</em>.</span><span data-zh>论文被 <em>IEEE IoTJ</em> 接收。</span></span>
+      </div>
+      <div class="news-item">
+        <span class="date">2025 · 10</span>
+        <span><span data-en>Attending <strong>IROS 2025</strong> in person — happy to chat about Computer Vision.</span><span data-zh>线下参加 <strong>IROS 2025</strong>，欢迎交流。</span></span>
+      </div>
+      <div class="news-item">
+        <span class="date">2025 · 8</span>
+        <span><span data-en>Paper accepted to <em>IEEE T-ASE</em></span><span data-zh>论文被 <em>IEEE T-ASE</em> 接收。</span></span>
+      </div>
+      <div class="news-item">
+        <span class="date">2025 · 6</span>
+        <span><span data-en>Paper accepted to <em>IROS 2025</em></span><span data-zh>论文被 <em>IROS 2025</em> 接收。</span></span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <main>
 
-  <!-- ══════════════════ 个人简介 ══════════════════ -->
-  <section id="about">
-    <div class="about-text">
-      <h1 data-lang-en>Zhang Sheng<br>张晟</h1>
-      <h1 data-lang-zh>张晟<br>Zhang Sheng</h1>
+<section id="publications">
+  <div class="section-head">
+    <span class="num">01</span>
+    <h2 data-en>Selected Publications</h2>
+    <h2 data-zh>代表性论文</h2>
+    <span class="rule"></span>
+  </div>
 
-      <span class="role" data-lang-en>PhD of BIT · School of Mechatronical Engineering</span>
-      <span class="role" data-lang-zh>北京理工大学 · 机电学院博士研究生</span>
+  <div class="pub-list">
 
-      <p data-lang-en>
-        I am currently pursuing my Ph.D. at the School of Mechatronical Engineering, Beijing Institute of Technology. My research focuses on intelligent drone swarms, with interests spanning computer vision perception, end-to-end learning, autonomous obstacle avoidance for UAVs, and swarm intelligence simulation. My research goal is to enable vision-based cooperative UAV swarm missions in denied environments.
-      </p>
-      <p data-lang-zh>
-        我目前在北京理工大学机电学院攻读博士学位。我的研究聚焦于智能无人机集群，研究兴趣涵盖计算机视觉感知、端到端学习、无人机自主避障以及集群智能仿真。我的研究目标是在拒止环境中实现基于视觉的无人机集群协同任务。
-      </p>
-
-      <p data-lang-en>
-        Since 2015, I have completed my bachelor's and master's degrees at Beijing Institute of Technology, and I also completed my doctoral coursework with outstanding academic performance. I expect to graduate by the end of 2026. At present, I am seeking a postdoctoral or research-related position.
-      </p>
-      <p data-lang-zh>
-        自2015年起，我在北京理工大学完成了本科和硕士学业，博士课程成绩优异。预计于2026年底毕业。目前正在寻求博士后或科研相关职位。
-      </p>
-
-      <div class="links">
-        <a href="mailto:18811363276@163.com">✉ Email</a>
-        <a href="https://github.com/CDDzhang/" target="_blank">GitHub</a>
-        <a href="javascript:void(0)" title="WeChat: zc499706008">WeChat</a>
-      </div>
-    </div>
-
-    <div class="avatar-box">
-      <img src="pictures/A-ShengZhang.png" alt="ZhangSheng" style="width:100%;height:100%;object-fit:cover">
-    </div>
-  </section>
-
-  <!-- ══════════════════ 论文发表 ══════════════════ -->
-  <section id="publications">
-    <div class="section-label">
-      <span data-lang-en>Publications</span>
-      <span data-lang-zh>论文发表</span>
-    </div>
-    <div class="pub-list">
-
-      <div class="pub-item">
-        <div class="pub-title">SIGMA: An Agent-Based Modeling UAV Swarm Simulator for Swarm Intelligence Algorithms</div>
-        <div class="pub-authors"><strong>Zhang Sheng</strong>, Li Juan, Liu Chang, Fu Lei, Bai Zehao</div>
-        <div class="pub-venue">IEEE Transaction on Automation and Engineering, 2025</div>
-        <div class="pub-tags">
-          <span class="tag highlight">Oral</span>
-          <span class="tag">Topic A</span>
-          <span class="tag">Topic B</span>
-        </div>
-        <div class="pub-links">
-          <a href="#">[Paper]</a>
-          <a href="#">[Code]</a>
-          <a href="#">[Project Page]</a>
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2025</span><br>T-ASE</div>
+      <div>
+        <h4>SIGMA: An Agent-Based Modeling UAV Swarm Simulator for Swarm Intelligence Algorithms</a></h4>
+        <div class="authors"><span class="me">Sheng Zhang</span>, Juan Li*, Chang Liu, Lei Fu, Zehao Bai and Li Jie</div>
+        <div class="venue">IEEE Transactions on Automation Science and Engineering</div>
+        <div class="links">
+          <a href="https://ieeexplore.ieee.org/document/11121406">[PDF]</a>
+          <a href="https://github.com/CDDzhang/SIGMA-Plugins">[code]</a>
+          <a href="https://api.semanticscholar.org/CorpusID:280697117">[BibTeX]</a>
         </div>
       </div>
+    </div>
 
-      <div class="pub-item">
-        <div class="pub-title">Another Publication Title: Method for Solving a Hard Problem</div>
-        <div class="pub-authors">Co-author One, <strong>Your Name</strong>, Senior Author</div>
-        <div class="pub-venue">Journal of Something, Vol. X, 2024</div>
-        <div class="pub-tags">
-          <span class="tag">Topic C</span>
-          <span class="tag">Topic D</span>
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2025</span><br>IROS</div>
+      <div>
+        <h4>BoRe-Depth: Self-supervised Monocular Depth Estimation with Boundary Refinement for Embedded Systems</a></h4>
+        <div class="authors">Chang Liu, Juan Li*, <span class="me">Sheng Zhang</span>, Jie Li and Xu Zhang</div>
+        <div class="venue">IROS 2025</div>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2511.04388">[PDF]</a>
+          <a href="https://github.com/liangxiansheng093/BoRe-Depth">[Code]</a>
+          <a href="https://api.semanticscholar.org/CorpusID:282812439">[BibTeX]</a>
         </div>
-        <div class="pub-links">
-          <a href="#">[Paper]</a>
-          <a href="#">[arXiv]</a>
+      </div>
+    </div>
+
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2026</span><br>RA-L</div>
+      <div>
+        <h4>E2Depth: Efficient Self-supervised surround-view Depth Estimation with Explicit Geometric Enhancement</a></h4>
+        <div class="authors"><span class="me">Sheng Zhang</span>, Juan Li*, Chang Liu, Chang Liu, Jie Li, Dongxiao Yang</div>
+        <div class="venue">IEEE Robomatics and Automation Letters, 2026</div>
+        <div class="links">
+          <a href="https://github.com/CDDzhang/E2Depth">[code]</a>
+          <a href="#">[Video]</a>
         </div>
       </div>
-
     </div>
-  </section>
 
-  <!-- ══════════════════ 研究项目 ══════════════════ -->
-  <section id="projects">
-    <div class="section-label">
-      <span data-lang-en>Projects</span>
-      <span data-lang-zh>研究项目</span>
-    </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <h3>Project Name One</h3>
-        <p data-lang-en>A short project introduction describing what the project does, what problem it solves, and its outcomes.</p>
-        <p data-lang-zh>一段简短的项目介绍，说明这个项目做什么、解决什么问题、有什么成果。</p>
-        <a class="proj-link" href="#">→ View on GitHub</a>
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2026</span><br>IoTJ</div>
+      <div>
+        <h4>Adaptive Swarm Navigation via Motion Salience in Cluttered Environments</a></h4>
+        <div class="authors">Lei Fu, Jie Li, Juan Li, <span class="me">Sheng Zhang</span>, Yuhao Zhang and Chang Liu*</div>
+        <div class="venue">IEEE Internet of Things Journal, 2026</div>
+        <div class="links">
+          <a href="https://api.semanticscholar.org/CorpusID:282812439">[BibTeX]</a>
+        </div>
       </div>
-
-      <div class="project-card">
-        <h3>Project Name Two</h3>
-        <p data-lang-en>Another short project description. What problem does it solve? What are the key results or contributions?</p>
-        <p data-lang-zh>另一个简短的项目描述。它解决了什么问题？关键成果或贡献是什么？</p>
-        <a class="proj-link" href="#">→ Project Page</a>
-      </div>
-
-      <div class="project-card">
-        <h3>Project Name Three</h3>
-        <p data-lang-en>Works in progress, open-source tools, datasets, etc.</p>
-        <p data-lang-zh>可以放正在进行中的项目，或者开源工具、数据集等。</p>
-        <a class="proj-link" href="#">→ arXiv Preprint</a>
-      </div>
-
-      <div class="project-card">
-        <h3>Project Name Four</h3>
-        <p data-lang-en>Collaborative work with [Lab / Company]. Briefly describe the scope and your contribution.</p>
-        <p data-lang-zh>与[实验室/公司]的合作项目。简要描述范围及个人贡献。</p>
-        <a class="proj-link" href="#">→ Learn More</a>
-      </div>
-
     </div>
-  </section>
 
-  <!-- ══════════════════ 联系方式 ══════════════════ -->
-  <section id="contact">
-    <div class="section-label">
-      <span data-lang-en>Contact</span>
-      <span data-lang-zh>联系方式</span>
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2025</span><br>Inf. Sci.</div>
+      <div>
+        <h4>Visually oriented flight and coordination of unmanned aerial vehicle swarms without explicit communication</a></h4>
+        <div class="authors">Jing Xiong, Juan Li*, Jie Li, Chang Liu and <span class="me">Sheng Zhang</span></div>
+        <div class="venue">Information Sciences, 2025</div>
+        <div class="links">
+          <a href="https://api.semanticscholar.org/CorpusID:283520654">[BibTeX]</a>
+        </div>
+        
+      </div>
     </div>
-    <div class="contact-block">
-      <p data-lang-en>
-        I'm happy to discuss research collaborations, questions about my work, or just chat about my research.
-        The best way to reach me is by email.
-      </p>
-      <p data-lang-zh>
-        欢迎讨论科研合作、关于我研究工作的问题，或者随时交流。可以通过邮件联系我。
-      </p>
-      <div class="email">18811363276@163.com</div>
-      <p style="margin-top:1rem; font-size:0.88rem;">
-        <span data-lang-en>Beijing Institute of Technology, Beijing, China</span>
-        <span data-lang-zh>中国北京 · 北京理工大学</span>
-      </p>
+
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2026</span><br>RA-L</div>
+      <div>
+        <h4>Look Around to Move Forward: Emergent Dead-End Escape For Omnidirectional Drone Navigation</a></h4>
+        <div class="authors">Qi Wei, <span class="me">Sheng Zhang</span>, Juan Li* and Chang Liu</div>
+        <div class="venue">IEEE Robomatics and Automation Letters, 2026</div>
+        <div class="links">
+          <a>[Under Reviewing]</a>
+          <a href="#">[Video]</a>
+        </div>
+      </div>
     </div>
-  </section>
+
+    <div class="pub-row">
+      <div class="pubmeta"><span class="year">2026</span><br>TRO</div>
+      <div>
+        <h4>TAB Planner: Dynamic Obstacle Avoidance Navigation with Adaptive Optimization for Spatiotemporal Risk Management</a></h4>
+        <div class="authors"><span class="me">Sheng Zhang</span>, Kaiwen Niu, Juan Li* and Chang Liu</div>
+        <div class="venue">IEEE Transactions on Robotics</div>
+        <div class="links">
+          <a>[Under Reviewing]</a>
+          <a href="#">[Video]</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="Patents">
+  <div class="section-head">
+    <span class="num">02</span>
+    <h2 data-en>Patents</h2>
+    <h2 data-zh>专利</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="research-card">
+    <ul class="card-list">
+      <li><span class="item-name" data-en>A trajectory estimation method for clustered fixed-wing aircraft based on temporal similarity feature information</span>
+        <span class="item-name" data-zh>基于时序相似特征信息的集群固定翼飞行器轨迹估计方法</span><span class="item-year"> (ZL202310186689.0) </span></li>
+      <li><span class="item-name" data-en>A method for generating data and automatically annotating a highly realistic virtual environment</span>
+        <span class="item-name" data-zh>一种高还原度虚拟环境的数据生成及自动标注方法</span><span class="item-year">(ZL202310242137.7)</span></li>
+      <li><span class="item-name" data-en>A method for judging the flight trend of a fixed-wing aircraft based on vision</span>
+        <span class="item-name" data-zh>一种基于视觉的固定翼飞行器飞行趋势判断方法</span><span class="item-year">(ZL202011326682.7)</span></li>
+      <li><span class="item-name" data-en>A micro-light night vision target recognition device based on low-light sensitivity units</span>
+        <span class="item-name" data-zh>一种基于低照度敏感单元的微光夜视目标识别装置</span><span class="item-year">(ZL202310275476.5)</span></li>
+      <li><span class="item-name" data-en>A method for replaying, annotating and collecting simulation data of unmanned aerial vehicles</span>
+        <span class="item-name" data-zh>一种无人机仿真数据的回放、标注与采集方法</span><span class="item-year">(ZL202410260216.5)</span></li>
+      <li><span class="item-name" data-en>A dense target detection method for unmanned aerial vehicle (UAV) aerial photography based on prior knowledge</span>
+        <span class="item-name" data-zh>一种基于先验知识的无人机航拍密集目标检测方法</span><span class="item-year">(ZL202410729968.1)</span></li>
+      <li><span class="item-name" data-en>A panoramic visual automatic acquisition method and system for unmanned aerial vehicle simulation</span>
+        <span class="item-name" data-zh>面向无人机仿真的全景视觉自动采集方法及系统</span></li>
+        <li><span class="item-name" data-en>A method for estimating the full-angle depth of an unmanned aerial vehicle based on a four-mirror fish-eye camera</span>
+        <span class="item-name" data-zh>一种基于四目鱼眼相机的无人机全向深度估计方法</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="Awards">
+  <div class="section-head">
+    <span class="num">02</span>
+    <h2 data-en>Awards &amp; Honors</h2>
+    <h2 data-zh>获奖荣誉</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="research-card">
+    <ul class="card-list">
+      <li><span class="item-name" data-en>Outstanding Students of Beijing Institute of Technology for the Academic Year 2023-2023</span><span class="item-name" data-zh>2023~2023学年北京理工大学优秀学生</span></li>
+      <li><span class="item-name" data-en>Outstanding Students of Beijing Institute of Technology for the Academic Year 2024-2025</span><span class="item-name" data-zh>2024~2025学年北京理工大学优秀学生</span></li>
+      <li><span class="item-name" data-en>Century Cup School Competition Bronze Award</span><span class="item-name" data-zh>世纪杯校赛铜奖</span></li>
+      <li><span class="item-name" data-en>Second Prize of the Tsinghua University Simulation Design Competition</span><span class="item-name" data-zh>清华大学仿真设计大赛二等奖</span></li>
+      <li><span class="item-name" data-en>Second Prize of the Beijing Innovation and Entrepreneurship Competition</span><span class="item-name" data-zh>北京市创新创业大赛二等奖</span></li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section id="research">
+  <div class="section-head">
+    <span class="num">04</span>
+    <h2 data-en>Research Directions</h2>
+    <h2 data-zh>研究方向</h2>
+    <span class="rule"></span>
+  </div>
+  <div class="research-grid">
+    <div class="research-card">
+      <span class="num">01</span>
+      <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="16" cy="16" r="6"/>
+        <circle cx="16" cy="16" r="11" stroke-dasharray="2,2"/>
+        <path d="M 16 5 L 16 8 M 16 24 L 16 27 M 5 16 L 8 16 M 24 16 L 27 16"/>
+      </svg>
+      <h4 data-en>Vision-Based Perception</h4>
+      <h4 data-zh>视觉感知</h4>
+      <p data-en>Monocular depth, ego-motion, and target estimation pipelines tuned for the compute envelope of an onboard UAV processor.</p>
+      <p data-zh>面向无人机机载算力约束的单目深度、自身运动与目标估计方法研究。</p>
+    </div>
+    <div class="research-card">
+      <span class="num">02</span>
+      <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+        <rect x="4" y="6" width="8" height="8" rx="1"/>
+        <rect x="20" y="6" width="8" height="8" rx="1"/>
+        <rect x="12" y="18" width="8" height="8" rx="1"/>
+        <path d="M 12 10 L 20 10 M 8 14 L 14 18 M 24 14 L 20 18"/>
+      </svg>
+      <h4 data-en>End-to-End Learning</h4>
+      <h4 data-zh>端到端学习</h4>
+      <p data-en>From pixels to control commands — learning navigation and avoidance policies that bypass brittle hand-engineered stacks.</p>
+      <p data-zh>从图像像素直接到控制指令，学习避开传统模块化栈脆弱性的导航与避障策略。</p>
+    </div>
+    <div class="research-card">
+      <span class="num">03</span>
+      <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="16" cy="8" r="2.5"/>
+        <circle cx="7" cy="20" r="2.5"/>
+        <circle cx="25" cy="20" r="2.5"/>
+        <circle cx="16" cy="26" r="2.5"/>
+        <path d="M 16 10.5 L 9 18 M 16 10.5 L 23 18 M 9 22 L 14 25 M 23 22 L 18 25 M 9 20 L 23 20"/>
+      </svg>
+      <h4 data-en>Swarm Simulation</h4>
+      <h4 data-zh>集群仿真</h4>
+      <p data-en>Agent-based modeling frameworks for benchmarking swarm-intelligence algorithms at scale before deployment.</p>
+      <p data-zh>基于智能体的建模框架，用于在部署前对集群智能算法进行大规模基准测试。</p>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-head">
+    <span class="num">05</span>
+    <h2 data-en>Education &amp; Experience</h2>
+    <h2 data-zh>教育与经历</h2>
+    <span class="rule"></span>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="date">2022 — 2026 (expected)</div>
+      <h4 data-en>Ph.D. in Mechatronical Engineering</h4>
+      <h4 data-zh>博士</h4>
+      <div class="org" data-en>School of Mechatronical Engineering, Beijing Institute of Technology</div>
+      <div class="org" data-zh>北京理工大学 · 机电学院</div>
+      <div class="note" data-en>Thesis on vision-based UAV autonomy navigation. </div>
+      <div class="note" data-zh>博士论文方向：基于视觉的无人机自主导航。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2019 — 2022</div>
+      <h4 data-en>Master in Mechatronical Engineering.</h4>
+      <h4 data-zh>硕士</h4>
+      <div class="org" data-en>School of Mechatronical Engineering, Beijing Institute of Technology</div>
+      <div class="org" data-zh>北京理工大学 · 机电学院</div>
+      <div class="note" data-en>The Vision-based Pose Estimation Algorithm For Swarm UAVs. </div>
+      <div class="note" data-zh>硕士论文方向： 无人机集群视觉位姿估计方法。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2015 — 2019</div>
+      <h4 data-en>Bechelor in Mechatronical Engineering..</h4>
+      <h4 data-zh>本科</h4>
+      <div class="org" data-en>School of Mechatronical Engineering, Beijing Institute of Technology</div>
+      <div class="org" data-zh>北京理工大学 · 机电学院</div>
+      <div class="note" data-en>UAV Infrared Target Recognition Method. </div>
+      <div class="note" data-zh>本科论文方向： 无人机红外目标识别方法。</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-head">
+    <span class="num">04</span>
+    <h2 data-en>Get in Touch</h2>
+    <h2 data-zh>联系方式</h2>
+    <span class="rule"></span>
+  </div>
+  <div class="contact-wrap">
+    <div>
+      <p data-en>I am happy to discuss research collaborations, questions about my work, or potential positions. Email is the most reliable way to reach me.</p>
+      <p data-zh>欢迎讨论科研合作、研究工作相关问题或职位机会。邮件联系最为可靠。</p>
+      <div class="seeking">
+        <strong data-en>Currently seeking:</strong>
+        <strong data-zh>当前正在寻找：</strong>
+        <span data-en> Postdoctoral and research positions in robotics, autonomous systems, and embodied AI, starting late 2026 or 2027.</span>
+        <span data-zh> 机器人学、自主系统及具身智能方向的博士后或研究类职位，起始时间为 2026 年底或 2027 年底。</span>
+      </div>
+    </div>
+    <div class="contact-card">
+      <dl>
+        <dt>Email</dt><dd><a href="mailto:18811363276@163.com">18811363276@163.com</a></dd>
+        <dt>GitHub</dt><dd><a href="https://github.com/CDDzhang/" target="_blank">CDDzhang</a></dd>
+        <dt>WeChat</dt><dd>zc499706008</dd>
+        <dt data-en>Office</dt>
+        <dt data-zh>办公室</dt>
+        <dd data-en>School of Mechatronical Engineering<br>Beijing Institute of Technology<br>Beijing, China</dd>
+        <dd data-zh>北京理工大学 机电学院<br>中国 北京</dd>
+      </dl>
+    </div>
+  </div>
+</section>
 
 </main>
 
 <footer>
-  © 2026 Zhang Sheng · Built with plain HTML · Hosted on GitHub Pages
+  <div class="footer-inner">
+    <span>© 2026 Sheng Zhang · Last updated May 2026</span>
+    <span class="loc">39.9°N · 116.4°E — Beijing</span>
+  </div>
 </footer>
 
 <script>
+/* ═══════════════ Language toggle ═══════════════ */
 (function () {
   const html = document.documentElement;
-  const btnEn = document.getElementById('btnEn');
-  const btnZh = document.getElementById('btnZh');
-
-  // 读取上次选择的语言（localStorage），默认英文
+  const btnEn = document.getElementById('btn-en');
+  const btnZh = document.getElementById('btn-zh');
   const saved = localStorage.getItem('site-lang');
-  if (saved === 'zh') switchTo('zh');
-
-  btnEn.addEventListener('click', () => switchTo('en'));
-  btnZh.addEventListener('click', () => switchTo('zh'));
-
-  function switchTo(lang) {
+  if (saved === 'zh') setLang('zh');
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnZh.addEventListener('click', () => setLang('zh'));
+  function setLang(lang) {
     if (lang === 'zh') {
-      html.classList.add('zh');
-      html.setAttribute('lang', 'zh');
-      btnZh.classList.add('active');
-      btnEn.classList.remove('active');
+      html.classList.add('zh'); html.setAttribute('lang', 'zh');
+      btnZh.classList.add('on'); btnEn.classList.remove('on');
     } else {
-      html.classList.remove('zh');
-      html.setAttribute('lang', 'en');
-      btnEn.classList.add('active');
-      btnZh.classList.remove('active');
+      html.classList.remove('zh'); html.setAttribute('lang', 'en');
+      btnEn.classList.add('on'); btnZh.classList.remove('on');
     }
     localStorage.setItem('site-lang', lang);
   }
+})();
+
+/* ═══════════════ A* Pathfinding Demo ═══════════════ */
+(function () {
+  const canvas = document.getElementById('astar-canvas');
+  const ctx = canvas.getContext('2d');
+  const GRID = 20;
+  const COLORS = {
+    bg: '#ffffff', grid: '#efece6', obstacle: '#11151c',
+    visited: '#eef2fb', path: '#1e3a8a', uav: '#1e3a8a',
+    goal: '#fde68a', goalEdge: '#d4a72c'
+  };
+
+  const state = {
+    cellSize: 25,
+    obstacles: new Set(),
+    start: { x: 1, y: GRID - 2 },
+    goal:  { x: GRID - 2, y: 1 },
+    uav:   { x: 1, y: GRID - 2, animX: 1, animY: GRID - 2 },
+    path: [], visited: new Set(),
+    flying: false, flightTimer: null, pathIndex: 0
+  };
+
+  const key = (x, y) => x + ',' + y;
+  const unkey = (k) => k.split(',').map(Number);
+
+  function fitCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = rect.width  * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    state.cellSize = rect.width / GRID;
+    draw();
+  }
+
+  function astar(start, goal, blocked) {
+    const open = new Map();
+    const closed = new Set();
+    const cameFrom = new Map();
+    const gScore = new Map();
+    const fScore = new Map();
+    const visited = new Set();
+
+    const h = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+    const startK = key(start.x, start.y);
+    gScore.set(startK, 0);
+    fScore.set(startK, h(start, goal));
+    open.set(startK, { x: start.x, y: start.y });
+
+    while (open.size > 0) {
+      let currentK = null;
+      let lowest = Infinity;
+      for (const k of open.keys()) {
+        const f = fScore.get(k);
+        if (f !== undefined && f < lowest) { lowest = f; currentK = k; }
+      }
+      if (currentK === null) break;
+      const current = open.get(currentK);
+      if (current.x === goal.x && current.y === goal.y) {
+        const path = [current];
+        let k = currentK;
+        while (cameFrom.has(k)) {
+          k = cameFrom.get(k);
+          const [x, y] = unkey(k);
+          path.unshift({ x, y });
+        }
+        return { path, visited };
+      }
+      open.delete(currentK);
+      closed.add(currentK);
+      visited.add(currentK);
+
+      const neighbors = [
+        { x: current.x + 1, y: current.y },
+        { x: current.x - 1, y: current.y },
+        { x: current.x,     y: current.y + 1 },
+        { x: current.x,     y: current.y - 1 }
+      ];
+      for (const n of neighbors) {
+        if (n.x < 0 || n.y < 0 || n.x >= GRID || n.y >= GRID) continue;
+        const nk = key(n.x, n.y);
+        if (blocked.has(nk)) continue;
+        if (closed.has(nk)) continue;
+        const tentative = (gScore.get(currentK) ?? Infinity) + 1;
+        if (tentative < (gScore.get(nk) ?? Infinity)) {
+          cameFrom.set(nk, currentK);
+          gScore.set(nk, tentative);
+          fScore.set(nk, tentative + h(n, goal));
+          if (!open.has(nk)) open.set(nk, n);
+        }
+      }
+    }
+    return { path: null, visited };
+  }
+
+  function recompute() {
+    const result = astar(state.uav, state.goal, state.obstacles);
+    state.path = result.path || [];
+    state.visited = result.visited;
+    updateStats();
+  }
+
+  function updateStats() {
+    const stepsEl = document.getElementById('stat-steps');
+    const pathEl = document.getElementById('stat-path');
+    if (stepsEl) stepsEl.textContent = state.visited.size;
+    if (pathEl) pathEl.textContent = state.path.length ? (state.path.length - 1) : '∞';
+  }
+
+  function draw() {
+    const cs = state.cellSize;
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = COLORS.bg;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = COLORS.visited;
+    for (const k of state.visited) {
+      const [x, y] = unkey(k);
+      ctx.fillRect(x * cs, y * cs, cs, cs);
+    }
+
+    ctx.strokeStyle = COLORS.grid;
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= GRID; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * cs, 0); ctx.lineTo(i * cs, h);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, i * cs); ctx.lineTo(w, i * cs);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = COLORS.obstacle;
+    for (const k of state.obstacles) {
+      const [x, y] = unkey(k);
+      ctx.fillRect(x * cs + 1, y * cs + 1, cs - 2, cs - 2);
+    }
+
+    if (state.path && state.path.length > 1) {
+      ctx.strokeStyle = COLORS.path;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      const p0 = state.path[0];
+      ctx.moveTo(p0.x * cs + cs / 2, p0.y * cs + cs / 2);
+      for (let i = 1; i < state.path.length; i++) {
+        const p = state.path[i];
+        ctx.lineTo(p.x * cs + cs / 2, p.y * cs + cs / 2);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = COLORS.path;
+      for (let i = 1; i < state.path.length - 1; i++) {
+        const p = state.path[i];
+        ctx.beginPath();
+        ctx.arc(p.x * cs + cs / 2, p.y * cs + cs / 2, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    drawGoal(state.goal.x, state.goal.y, cs);
+    drawUAV(state.uav.animX, state.uav.animY, cs);
+  }
+
+  function drawGoal(gx, gy, cs) {
+    const x = gx * cs + cs / 2;
+    const y = gy * cs + cs / 2;
+    const r = cs * 0.36;
+    ctx.strokeStyle = COLORS.goalEdge;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(x, y, r + 2, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = COLORS.goal;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = COLORS.goalEdge;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(x - r * 0.6, y); ctx.lineTo(x + r * 0.6, y);
+    ctx.moveTo(x, y - r * 0.6); ctx.lineTo(x, y + r * 0.6);
+    ctx.stroke();
+  }
+
+  function drawUAV(ux, uy, cs) {
+    const x = ux * cs + cs / 2;
+    const y = uy * cs + cs / 2;
+    const s = cs * 0.42;
+    ctx.save();
+    ctx.strokeStyle = COLORS.uav;
+    ctx.lineWidth = 1.6;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x - s, y - s); ctx.lineTo(x + s, y + s);
+    ctx.moveTo(x + s, y - s); ctx.lineTo(x - s, y + s);
+    ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.strokeStyle = COLORS.uav;
+    ctx.lineWidth = 1.3;
+    const offsets = [[-1,-1],[1,-1],[-1,1],[1,1]];
+    for (const o of offsets) {
+      ctx.beginPath();
+      ctx.arc(x + o[0] * s, y + o[1] * s, s * 0.42, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+    ctx.fillStyle = COLORS.uav;
+    ctx.beginPath();
+    ctx.arc(x, y, s * 0.35, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function cellFromEvent(e) {
+    const rect = canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    return { x: Math.floor(px / state.cellSize), y: Math.floor(py / state.cellSize) };
+  }
+
+  canvas.addEventListener('click', (e) => {
+    if (state.flying) return;
+    const { x, y } = cellFromEvent(e);
+    if (x < 0 || y < 0 || x >= GRID || y >= GRID) return;
+    if (x === state.uav.x && y === state.uav.y) return;
+    if (x === state.goal.x && y === state.goal.y) return;
+    const k = key(x, y);
+    if (state.obstacles.has(k)) state.obstacles.delete(k);
+    else state.obstacles.add(k);
+    recompute();
+    draw();
+  });
+
+  document.getElementById('btn-clear').addEventListener('click', () => {
+    if (state.flying) return;
+    state.obstacles.clear();
+    resetUAV();
+  });
+
+  document.getElementById('btn-random').addEventListener('click', () => {
+    if (state.flying) return;
+    state.obstacles.clear();
+    for (let x = 0; x < GRID; x++) {
+      for (let y = 0; y < GRID; y++) {
+        if (x === state.start.x && y === state.start.y) continue;
+        if (x === state.goal.x  && y === state.goal.y)  continue;
+        if (Math.abs(x - state.start.x) + Math.abs(y - state.start.y) < 2) continue;
+        if (Math.abs(x - state.goal.x)  + Math.abs(y - state.goal.y)  < 2) continue;
+        if (Math.random() < 0.18) state.obstacles.add(key(x, y));
+      }
+    }
+    resetUAV();
+  });
+
+  document.getElementById('btn-replay').addEventListener('click', () => {
+    if (state.flying) { stopFlight(); return; }
+    if (state.uav.x === state.goal.x && state.uav.y === state.goal.y) {
+      resetUAV();
+    }
+    startFlight();
+  });
+
+  function resetUAV() {
+    stopFlight();
+    state.uav.x = state.start.x;
+    state.uav.y = state.start.y;
+    state.uav.animX = state.start.x;
+    state.uav.animY = state.start.y;
+    recompute();
+    draw();
+  }
+
+  function stopFlight() {
+    state.flying = false;
+    if (state.flightTimer) {
+      cancelAnimationFrame(state.flightTimer);
+      state.flightTimer = null;
+    }
+  }
+
+  function startFlight() {
+    if (!state.path || state.path.length < 2) { draw(); return; }
+    state.flying = true;
+    state.pathIndex = 0;
+    animateFlight();
+  }
+
+  function animateFlight() {
+    if (!state.flying) return;
+    if (state.pathIndex >= state.path.length - 1) {
+      state.flying = false;
+      state.uav.x = state.goal.x;
+      state.uav.y = state.goal.y;
+      state.uav.animX = state.goal.x;
+      state.uav.animY = state.goal.y;
+      draw();
+      return;
+    }
+    const from = state.path[state.pathIndex];
+    const to   = state.path[state.pathIndex + 1];
+    const duration = 180;
+    const startTime = performance.now();
+
+    function step(now) {
+      if (!state.flying) return;
+      const t = Math.min(1, (now - startTime) / duration);
+      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      state.uav.animX = from.x + (to.x - from.x) * e;
+      state.uav.animY = from.y + (to.y - from.y) * e;
+      draw();
+      if (t < 1) {
+        state.flightTimer = requestAnimationFrame(step);
+      } else {
+        state.uav.x = to.x;
+        state.uav.y = to.y;
+        state.pathIndex++;
+        state.flightTimer = requestAnimationFrame(animateFlight);
+      }
+    }
+    state.flightTimer = requestAnimationFrame(step);
+  }
+
+  function seed() {
+    const demo = [
+      [6,6],[6,7],[6,8],[6,9],[6,10],[7,10],[8,10],
+      [12,3],[12,4],[12,5],[13,5],[14,5],
+      [13,13],[14,13],[15,13],[15,14],[15,15]
+    ];
+    for (const d of demo) state.obstacles.add(key(d[0], d[1]));
+  }
+
+  window.addEventListener('resize', fitCanvas);
+  seed();
+  fitCanvas();
+  recompute();
+  draw();
 })();
 </script>
 
